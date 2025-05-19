@@ -90,16 +90,18 @@ Error generating stack: `+o.message+`
   width: 40%;
   height: 100%;
   
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     width: 100%;
     height: auto;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 1rem;
-    position: absolute;
+    padding: 0;
+    position: fixed;
     bottom: 0;
-    background: rgba(0, 24, 51, 0.8);
+    left: 0;
+    right: 0;
+    background: rgba(0, 24, 51, 0.95);
     backdrop-filter: blur(10px);
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+    z-index: 100;
   }
 `,vk=C(_.ul)`
   list-style: none;
@@ -110,12 +112,14 @@ Error generating stack: `+o.message+`
   transform: rotateX(-15deg);
   position: relative;
   
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     flex-direction: row;
     transform: none;
-    gap: 0.5rem;
+    gap: 0;
     width: 100%;
     justify-content: space-around;
+    padding: 0.5rem 0;
+    margin: 0;
   }
 `,xk=C(_.li)`
   font-family: 'Montserrat', sans-serif;
@@ -132,12 +136,22 @@ Error generating stack: `+o.message+`
   
   &:hover {
     color: ${e=>e.$active?"black":"rgba(255, 255, 255, 0.8)"};
+    transform: ${e=>e.$active?"none":"translateY(-2px)"};
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     font-size: 1rem;
-    padding: 0.5rem;
+    padding: 0.8rem 0;
     text-align: center;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+    padding: 0.6rem 0;
   }
 `,wk=C(_.div)`
   position: absolute;
@@ -149,7 +163,17 @@ Error generating stack: `+o.message+`
   z-index: 1;
   border-radius: 5px;
   left: 0;
-`,Sk={hidden:{opacity:0},visible:{opacity:1,transition:{staggerChildren:.1,delayChildren:.3}}},kk={hidden:{opacity:0,y:20,rotateX:-30},visible:{opacity:1,y:0,rotateX:0,transition:{type:"spring",stiffness:300,damping:15}}},Pk=({items:e,activeSection:t,setActiveSection:n})=>{const[r,i]=A.useState({top:0,height:0}),o=A.useRef([]);return A.useEffect(()=>{o.current=o.current.slice(0,e.length)},[e]),A.useEffect(()=>{if(t&&o.current.length){const s=e.findIndex(a=>a.id===t);if(s>=0&&o.current[s]){const a=o.current[s];i({top:a.offsetTop,height:a.offsetHeight})}}},[t,e]),y.jsx(yk,{children:y.jsxs(vk,{variants:Sk,initial:"hidden",animate:"visible",children:[y.jsx(fr,{children:t&&y.jsx(wk,{initial:{opacity:0},animate:{opacity:1,top:r.top,height:r.height},transition:{type:"spring",stiffness:300,damping:20},exit:{opacity:0}})}),e.map((s,a)=>y.jsx(xk,{variants:kk,ref:l=>o.current[a]=l,onClick:()=>n(s.id),$active:t===s.id,whileHover:{scale:1.05},whileTap:{scale:.95},children:s.label},s.id))]})})},Ck=C(_.div)`
+  
+  @media (max-width: 1024px) {
+    transform: none;
+    border-radius: 0;
+    height: 3px;
+    top: auto !important;
+    bottom: 0;
+    width: 20%;
+    left: ${e=>(e.$index||0)*20}%;
+  }
+`,Sk={hidden:{opacity:0},visible:{opacity:1,transition:{staggerChildren:.1,delayChildren:.3}}},kk={hidden:{opacity:0,y:20,rotateX:-30},visible:{opacity:1,y:0,rotateX:0,transition:{type:"spring",stiffness:300,damping:15}}},Pk=({items:e,activeSection:t,setActiveSection:n})=>{const[r,i]=A.useState({top:0,height:0}),[o,s]=A.useState(0),a=A.useRef([]);return A.useEffect(()=>{a.current=a.current.slice(0,e.length)},[e]),A.useEffect(()=>{if(t&&a.current.length){const l=e.findIndex(u=>u.id===t);if(l>=0&&a.current[l]){const u=a.current[l];i({top:u.offsetTop,height:u.offsetHeight}),s(l)}}},[t,e]),y.jsx(yk,{children:y.jsxs(vk,{variants:Sk,initial:"hidden",animate:"visible",children:[y.jsx(fr,{children:t&&y.jsx(wk,{initial:{opacity:0},animate:{opacity:1,top:r.top,height:r.height},$index:o,transition:{type:"spring",stiffness:300,damping:20},exit:{opacity:0}})}),e.map((l,u)=>y.jsx(xk,{variants:kk,ref:c=>a.current[u]=c,onClick:()=>n(l.id),$active:t===l.id,whileHover:{scale:1.05},whileTap:{scale:.95},children:l.label},l.id))]})})},Ck=C(_.div)`
   position: relative;
   width: 100%;
   height: 100%;
