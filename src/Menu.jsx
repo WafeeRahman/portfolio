@@ -14,16 +14,18 @@ const MenuContainer = styled(motion.div)`
   width: 40%;
   height: 100%;
   
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     width: 100%;
     height: auto;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 1rem;
-    position: absolute;
+    padding: 0;
+    position: fixed;
     bottom: 0;
-    background: rgba(0, 24, 51, 0.8);
+    left: 0;
+    right: 0;
+    background: rgba(0, 24, 51, 0.95);
     backdrop-filter: blur(10px);
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+    z-index: 100;
   }
 `
 
@@ -36,12 +38,14 @@ const MenuList = styled(motion.ul)`
   transform: rotateX(-15deg);
   position: relative;
   
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     flex-direction: row;
     transform: none;
-    gap: 0.5rem;
+    gap: 0;
     width: 100%;
     justify-content: space-around;
+    padding: 0.5rem 0;
+    margin: 0;
   }
 `
 
@@ -60,12 +64,22 @@ const MenuItem = styled(motion.li)`
   
   &:hover {
     color: ${props => props.$active ? 'black' : 'rgba(255, 255, 255, 0.8)'};
+    transform: ${props => props.$active ? 'none' : 'translateY(-2px)'};
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     font-size: 1rem;
-    padding: 0.5rem;
+    padding: 0.8rem 0;
     text-align: center;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+    padding: 0.6rem 0;
   }
 `
 
@@ -79,6 +93,16 @@ const HighlightBar = styled(motion.div)`
   z-index: 1;
   border-radius: 5px;
   left: 0;
+  
+  @media (max-width: 1024px) {
+    transform: none;
+    border-radius: 0;
+    height: 3px;
+    top: auto !important;
+    bottom: 0;
+    width: 20%;
+    left: ${props => (props.$index || 0) * 20}%;
+  }
 `
 
 const menuVariants = {
@@ -112,6 +136,7 @@ const itemVariants = {
 
 const Menu = ({ items, activeSection, setActiveSection }) => {
   const [highlightPosition, setHighlightPosition] = useState({ top: 0, height: 0 })
+  const [activeIndex, setActiveIndex] = useState(0)
   const menuItemRefs = useRef([])
   
   // Reset refs when items change
@@ -129,6 +154,7 @@ const Menu = ({ items, activeSection, setActiveSection }) => {
           top: element.offsetTop,
           height: element.offsetHeight
         })
+        setActiveIndex(index)
       }
     }
   }, [activeSection, items])
@@ -149,6 +175,7 @@ const Menu = ({ items, activeSection, setActiveSection }) => {
                 top: highlightPosition.top,
                 height: highlightPosition.height,
               }}
+              $index={activeIndex}
               transition={{
                 type: 'spring',
                 stiffness: 300,
