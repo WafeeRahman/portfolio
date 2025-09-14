@@ -275,7 +275,7 @@ const Resume = () => {
                 <Duration>May 2025 - August 2025</Duration>
                 <BulletList>
                   <li>Led the development of 6 software automation projects from requirements to deployment, each eliminating 500 hours of manual intervention annually using TypeScript and the Numpy stack</li>
-                  <li>Accelerated structured notes preprocessing by 90% through automated PDF parsing with Python Regex patterns/li>
+                  <li>Accelerated structured notes preprocessing by 90% through automated PDF parsing with Python Regex patterns </li>
                   <li>Reduced operational costs by $16,000 annually by automating daily Excel calculations with TypeScript</li>
                   <li>Automated manual support script execution with a Flask/FastAPI architecture, saving 1040 hours annually</li>
                 </BulletList>
