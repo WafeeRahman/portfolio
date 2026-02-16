@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wafee Rahman — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --white: #f0ece4;
+  --white-bright: #faf8f4;
+  --white-dim: #9e998f;
+  --white-muted: #706c64;
+  --black: #000000;
+  --black-soft: #070707;
+  --tag-bg: rgba(240,236,228,0.06);
+  --tag-border: rgba(240,236,228,0.12);
+  --font-display: 'Jost', 'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif;
+  --font-body: 'Outfit', 'Futura', 'Century Gothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ═══════ INTRO ═══════ */
+#intro-screen {
+  position: fixed; inset: 0; z-index: 10000;
+  background: #000000;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.9s var(--ease-smooth);
+}
+#intro-screen.fade-out { opacity: 0; pointer-events: none; }
+#intro-screen img {
+  max-width: 50vw; max-height: 30vh;
+  object-fit: contain;
+  /* Blend gif's dark background seamlessly into pure black */
+  mix-blend-mode: lighten;
+}
+
+/* ═══════ GRAIN + VIGNETTE ═══════ */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  background-size: 512px 512px; opacity: 0.6;
+}
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 9997; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%);
+}
+
+/* ═══════ MAIN ═══════ */
+#main-site {
+  opacity: 0; transition: opacity 1.2s var(--ease-smooth) 0.2s;
+  position: relative; z-index: 1;
+}
+#main-site.visible { opacity: 1; }
+
+/* ═══════ CURSOR ═══════ */
+.cursor-glow {
+  position: fixed; width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,236,228,0.035) 0%, transparent 70%);
+  pointer-events: none; z-index: 9996; transform: translate(-50%, -50%); will-change: left, top;
+}
+
+/* ═══════ HERO ═══════ */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; position: relative;
+}
+.hero-name {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 7.5vw, 6rem); font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase; text-align: center;
+  opacity: 0; transform: translateY(50px) scale(0.96);
+  animation: heroIn 1.4s var(--ease-out-expo) 0.3s forwards;
+  cursor: default; position: relative;
+}
+/* Glitch as a SEPARATE animation on a pseudo-element so it doesn't reset heroIn */
+.hero-name:hover {
+  /* Don't override the main animation — just add text-shadow via transition */
+  text-shadow: -2px 0 rgba(240,236,228,0.2), 2px 0 rgba(240,236,228,0.1);
+  transition: text-shadow 0.1s;
+}
+.hero-name:not(:hover) {
+  text-shadow: none;
+  transition: text-shadow 0.3s;
+}
+
+.hero-line {
+  display: block; width: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--white), transparent);
+  margin: 12px auto 0;
+  animation: lineGrow 1.2s var(--ease-out-expo) 1.2s forwards;
+}
+.hero-subtitle {
+  font-family: var(--font-display);
+  font-size: clamp(0.85rem, 1.8vw, 1.15rem); font-weight: 300;
+  letter-spacing: 0.45em; text-transform: lowercase;
+  color: var(--white-dim); margin-top: 16px;
+  opacity: 0; transform: translateY(20px);
+  animation: fadeUp 1s var(--ease-out-expo) 0.8s forwards;
+}
+
+/* ═══════ NAV ═══════ */
+.nav-tabs {
+  display: flex; gap: 0; align-items: center; margin-top: 52px;
+  flex-wrap: wrap; justify-content: center;
+  opacity: 0; transform: translateY(20px);
+  animation: fadeUp 1s var(--ease-out-expo) 1.1s forwards;
+}
+.nav-tab {
+  font-family: var(--font-display);
+  font-size: clamp(0.68rem, 1.15vw, 0.85rem); font-weight: 400;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--white-dim); background: none; border: none;
+  cursor: pointer; padding: 12px 18px; position: relative;
+  transition: color 0.5s var(--ease-smooth); text-decoration: none;
+}
+.nav-tab:hover, .nav-tab.active { color: var(--white-bright); }
+.nav-tab::after {
+  content: ''; position: absolute; bottom: 4px; left: 50%;
+  width: 0; height: 1px; background: var(--white);
+  transform: translateX(-50%); transition: width 0.5s var(--ease-out-expo);
+}
+.nav-tab:hover::after, .nav-tab.active::after { width: 50%; }
+.nav-divider { width: 1px; height: 16px; background: var(--white-muted); opacity: 0.25; }
+
+/* ═══════ CONTACT ═══════ */
+.contact-row {
+  display: flex; gap: 36px; align-items: center; margin-top: 40px;
+  flex-wrap: wrap; justify-content: center;
+  opacity: 0; transform: translateY(20px);
+  animation: fadeUp 1s var(--ease-out-expo) 1.4s forwards;
+}
+.contact-link {
+  color: var(--white-dim); text-decoration: none;
+  font-family: var(--font-display); font-size: 0.78rem;
+  font-weight: 400; letter-spacing: 0.1em; transition: color 0.4s; position: relative;
+}
+.contact-link::after {
+  content: ''; position: absolute; bottom: -3px; left: 0;
+  width: 0; height: 1px; background: var(--white-dim);
+  transition: width 0.4s var(--ease-out-expo);
+}
+.contact-link:hover { color: var(--white-bright); }
+.contact-link:hover::after { width: 100%; }
+
+/* ═══════ SCROLL ARROW ═══════ */
+.scroll-arrow {
+  position: absolute; bottom: 36px; left: 0; right: 0;
+  display: flex; justify-content: center;
+  opacity: 0; animation: fadeUp 1s var(--ease-out-expo) 2s forwards;
+}
+.scroll-arrow svg {
+  width: 20px; height: 20px; stroke: var(--white-dim);
+  animation: bob 2.5s ease-in-out infinite;
+}
+
+/* ═══════ VIEWS ═══════ */
+.view { display: none; }
+.view.active { display: block; }
+.content-area {
+  max-width: 1400px; margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 100px) 120px;
+}
+
+/* ═══════ SECTION HEADERS ═══════ */
+.sec-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.4rem); font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase; text-align: center;
+  padding-top: 80px; margin-bottom: 16px;
+}
+.sec-line {
+  display: block; width: 50px; height: 1px;
+  background: var(--white-dim); margin: 0 auto 70px; opacity: 0.5;
+}
+
+/* ═══════ REVEAL ═══════ */
+.rv { opacity: 0; transform: translateY(50px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
+.rv.vis { opacity: 1; transform: translateY(0); }
+.rv-l { opacity: 0; transform: translateX(-70px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
+.rv-l.vis { opacity: 1; transform: translateX(0); }
+.rv-r { opacity: 0; transform: translateX(70px); transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo); }
+.rv-r.vis { opacity: 1; transform: translateX(0); }
+
+/* ═══════ ABOUT ═══════ */
+.bio {
+  font-size: clamp(1rem, 1.4vw, 1.15rem); font-weight: 300;
+  line-height: 2; color: var(--white-dim);
+  max-width: 800px; margin: 0 auto 60px; text-align: center;
+}
+.skills-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 40px; max-width: 900px; margin-left: auto; margin-right: auto; }
+.skill-chip {
+  font-family: var(--font-display); font-size: 0.72rem; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 7px 18px; border: 1px solid var(--tag-border);
+  border-radius: 100px; background: var(--tag-bg); color: var(--white-dim);
+  transition: border-color 0.4s, color 0.4s, background 0.4s;
+}
+.skill-chip:hover { border-color: rgba(240,236,228,0.3); color: var(--white); background: rgba(240,236,228,0.08); }
+
+/* ═══════ EXPERIENCE ═══════ */
+.exp-card {
+  margin-bottom: 56px; padding: 40px 48px;
+  border: 1px solid rgba(240,236,228,0.05); border-radius: 3px;
+  background: linear-gradient(160deg, rgba(240,236,228,0.018) 0%, transparent 60%);
+  transition: border-color 0.5s, transform 0.5s var(--ease-out-expo), box-shadow 0.5s;
+  position: relative; overflow: hidden;
+}
+.exp-card::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 2px; height: 0;
+  background: linear-gradient(to bottom, var(--white), transparent);
+  transition: height 0.6s var(--ease-out-expo);
+}
+.exp-card:hover::before { height: 100%; }
+.exp-card:hover { border-color: rgba(240,236,228,0.1); transform: translateY(-2px); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.exp-row { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+.exp-title { font-family: var(--font-display); font-size: clamp(1.05rem, 1.6vw, 1.3rem); font-weight: 600; letter-spacing: 0.04em; }
+.exp-date { font-family: var(--font-display); font-size: 0.82rem; font-weight: 300; color: var(--white-dim); letter-spacing: 0.08em; }
+.exp-company { font-size: 0.95rem; color: var(--white-dim); margin-bottom: 18px; font-weight: 300; }
+.exp-bullets { list-style: none; padding: 0; }
+.exp-bullets li { padding: 5px 0 5px 22px; position: relative; color: var(--white-dim); font-size: 0.95rem; line-height: 1.8; font-weight: 300; }
+.exp-bullets li::before { content: ''; position: absolute; left: 0; top: 15px; width: 6px; height: 1px; background: var(--white-muted); }
+
+/* ═══════ PROJECTS ═══════ */
+.project-card {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; margin-bottom: 120px; align-items: center;
+}
+.project-card.reverse { direction: rtl; }
+.project-card.reverse > * { direction: ltr; }
+
+.project-gif-wrap {
+  border-radius: 6px; overflow: hidden; position: relative;
+  border: 1px solid rgba(240,236,228,0.08);
+  background: #000;
+}
+.project-gif-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: brightness(0.95);
+  transition: filter 0.6s, transform 0.6s var(--ease-out-expo);
+}
+.project-gif-wrap:hover img {
+  filter: brightness(1.08);
+  transform: scale(1.02);
+}
+
+.project-info h3 { font-family: var(--font-display); font-size: clamp(1.2rem, 2.2vw, 1.6rem); font-weight: 600; letter-spacing: 0.06em; margin-bottom: 4px; }
+.project-type { font-size: 0.88rem; color: var(--white-dim); font-weight: 300; font-style: italic; margin-bottom: 18px; }
+.project-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.project-tag {
+  font-family: var(--font-display); font-size: 0.68rem; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 6px 16px; border: 1px solid var(--tag-border);
+  border-radius: 100px; background: var(--tag-bg); color: var(--white-dim);
+}
+.project-label { font-family: var(--font-display); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white-muted); margin-bottom: 10px; }
+.project-text { font-size: 0.95rem; line-height: 1.85; color: var(--white-dim); font-weight: 300; margin-bottom: 24px; }
+.project-features { list-style: none; padding: 0; }
+.project-features li { padding: 4px 0 4px 18px; position: relative; color: var(--white-dim); font-size: 0.92rem; line-height: 1.8; font-weight: 300; }
+.project-features li::before { content: '›'; position: absolute; left: 0; color: var(--white); opacity: 0.35; font-weight: 600; }
+
+/* ═══════ AWARDS ═══════ */
+.awards-timeline { position: relative; padding-left: 40px; max-width: 950px; margin: 0 auto; }
+.awards-timeline::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(240,236,228,0.12) 10%, rgba(240,236,228,0.12) 90%, transparent);
+}
+.award-card {
+  margin-bottom: 52px; padding: 32px 40px;
+  border: 1px solid rgba(240,236,228,0.04); border-radius: 3px;
+  background: linear-gradient(160deg, rgba(240,236,228,0.015) 0%, transparent 60%);
+  position: relative; transition: border-color 0.5s, transform 0.4s var(--ease-out-expo);
+}
+.award-card::before {
+  content: ''; position: absolute; left: -44px; top: 38px;
+  width: 8px; height: 8px; border-radius: 50%;
+  border: 1px solid var(--white-dim); background: var(--black);
+  transition: background 0.4s, border-color 0.4s;
+}
+.award-card:hover { border-color: rgba(240,236,228,0.1); transform: translateX(4px); }
+.award-card:hover::before { background: var(--white); border-color: var(--white); }
+.award-year { font-family: var(--font-display); font-size: 0.72rem; font-weight: 400; letter-spacing: 0.25em; text-transform: uppercase; color: var(--white-muted); margin-bottom: 8px; }
+.award-name { font-family: var(--font-display); font-size: clamp(1rem, 1.5vw, 1.2rem); font-weight: 600; letter-spacing: 0.04em; margin-bottom: 6px; }
+.award-issuer { font-size: 0.85rem; color: var(--white-dim); font-weight: 300; font-style: italic; margin-bottom: 12px; }
+.award-desc { font-size: 0.9rem; line-height: 1.8; color: var(--white-dim); font-weight: 300; opacity: 0.75; }
+
+/* ═══════ CREATIVE ═══════ */
+.creative-tabs { display: flex; gap: 0; align-items: center; justify-content: center; margin-bottom: 60px; }
+.creative-tab {
+  font-family: var(--font-display); font-size: 0.75rem; font-weight: 400;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--white-muted); background: none; border: none;
+  cursor: pointer; padding: 10px 22px; position: relative; transition: color 0.4s;
+}
+.creative-tab.active-sub, .creative-tab:hover:not(.disabled) { color: var(--white-bright); }
+.creative-tab::after {
+  content: ''; position: absolute; bottom: 2px; left: 50%;
+  width: 0; height: 1px; background: var(--white);
+  transform: translateX(-50%); transition: width 0.4s var(--ease-out-expo);
+}
+.creative-tab.active-sub::after, .creative-tab:hover:not(.disabled)::after { width: 45%; }
+.creative-tab.disabled { opacity: 0.3; cursor: not-allowed; }
+.creative-divider { width: 1px; height: 14px; background: var(--white-muted); opacity: 0.2; }
+.creative-page { display: none; }
+.creative-page.active-cp { display: block; }
+
+/* ═══════ PHOTO GALLERY (Masonry-style) ═══════ */
+.photo-gallery {
+  columns: 3;
+  column-gap: 16px;
+}
+.photo-gallery-item {
+  break-inside: avoid;
+  margin-bottom: 16px;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(240,236,228,0.06);
+  background: rgba(240,236,228,0.02);
+  transition: border-color 0.4s, transform 0.4s var(--ease-out-expo);
+}
+.photo-gallery-item:hover {
+  border-color: rgba(240,236,228,0.15);
+  transform: translateY(-3px);
+}
+.photo-gallery-item img {
+  width: 100%; height: auto; display: block;
+  filter: grayscale(0.1) brightness(0.95);
+  transition: filter 0.5s;
+}
+.photo-gallery-item:hover img {
+  filter: grayscale(0) brightness(1.05);
+}
+
+.photo-loading {
+  text-align: center; padding: 60px 20px;
+  font-family: var(--font-display); font-size: 0.85rem;
+  letter-spacing: 0.12em; color: var(--white-muted);
+}
+.photo-loading .spinner {
+  display: inline-block; width: 20px; height: 20px;
+  border: 1.5px solid var(--white-muted); border-top-color: transparent;
+  border-radius: 50%; animation: spin 0.8s linear infinite;
+  margin-bottom: 16px;
+}
+.photo-error {
+  text-align: center; padding: 60px 20px;
+  font-family: var(--font-display); font-size: 0.85rem;
+  letter-spacing: 0.1em; color: var(--white-muted);
+}
+.photo-error a { color: var(--white-dim); }
+
+.coming-soon {
+  text-align: center; padding: 80px 20px;
+  font-family: var(--font-display); font-size: 0.9rem;
+  letter-spacing: 0.15em; color: var(--white-muted); text-transform: uppercase;
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed; inset: 0; z-index: 10001;
+  background: rgba(0,0,0,0.92); display: none;
+  align-items: center; justify-content: center;
+  cursor: zoom-out;
+  animation: lbIn 0.3s ease;
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  max-width: 90vw; max-height: 90vh; object-fit: contain;
+  border-radius: 4px;
+}
+@keyframes lbIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ═══════ FOOTER ═══════ */
+footer {
+  text-align: center; padding: 80px 20px 40px;
+  font-family: var(--font-display); font-size: 0.72rem; font-weight: 300;
+  color: var(--white-muted); letter-spacing: 0.12em;
+}
+
+/* ═══════ KEYFRAMES ═══════ */
+@keyframes heroIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes lineGrow { to { width: 90px; } }
+@keyframes bob { 0%,100% { transform: translateY(0); opacity: 0.4; } 50% { transform: translateY(8px); opacity: 0.8; } }
+@keyframes float-p { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-20vh) scale(1); opacity: 0; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.particle { position: fixed; border-radius: 50%; background: var(--white); pointer-events: none; z-index: 0; }
+
+/* ═══════ RESPONSIVE ═══════ */
+@media (max-width: 1100px) {
+  .photo-gallery { columns: 2; }
+}
+@media (max-width: 900px) {
+  .project-card, .project-card.reverse { grid-template-columns: 1fr; gap: 28px; direction: ltr; }
+  .nav-tab { padding: 10px 14px; font-size: 0.65rem; letter-spacing: 0.12em; }
+  .exp-card { padding: 24px; }
+  .exp-row { flex-direction: column; gap: 2px; }
+  .award-card { padding: 24px; }
+  .awards-timeline { padding-left: 30px; }
+  .award-card::before { left: -34px; }
+  .contact-row { gap: 20px; }
+  .creative-tab { padding: 8px 14px; font-size: 0.68rem; }
+  .photo-gallery { columns: 2; }
+}
+@media (max-width: 600px) {
+  .photo-gallery { columns: 1; }
+}
+@media (max-width: 500px) {
+  .nav-divider { display: none; }
+  .nav-tab { padding: 8px 10px; font-size: 0.58rem; letter-spacing: 0.08em; }
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro-screen">
+  <img src="signature.gif" alt="Wafee Rahman Signature">
+</div>
+
+<!-- CURSOR -->
+<div class="cursor-glow" id="cursor-glow"></div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightbox-img" src="" alt="Photo">
+</div>
+
+<!-- MAIN SITE -->
+<div id="main-site">
+
+  <!-- ═══════ HERO ═══════ -->
+  <section class="hero" id="hero">
+    <h1 class="hero-name">Wafee Rahman</h1>
+    <span class="hero-line"></span>
+    <p class="hero-subtitle">software engineer</p>
+
+    <nav class="nav-tabs" id="nav">
+      <button class="nav-tab active" data-view="main" data-anchor="sec-about">About Me</button>
+      <div class="nav-divider"></div>
+      <button class="nav-tab" data-view="main" data-anchor="sec-experience">Work Experience</button>
+      <div class="nav-divider"></div>
+      <button class="nav-tab" data-view="main" data-anchor="sec-projects">Projects</button>
+      <div class="nav-divider"></div>
+      <button class="nav-tab" data-view="awards">Awards</button>
+      <div class="nav-divider"></div>
+      <button class="nav-tab" data-view="creative">Creative</button>
+    </nav>
+
+    <div class="contact-row">
+      <a class="contact-link" href="mailto:Wafee.Rahman842@gmail.com">Wafee.Rahman842@gmail.com</a>
+      <a class="contact-link" href="https://linkedin.com/in/wafeerahman" target="_blank">LinkedIn</a>
+      <a class="contact-link" href="https://github.com/WafeeRahman" target="_blank">GitHub</a>
+    </div>
+
+    <div class="scroll-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+       VIEW: MAIN — About Me + Work Experience + Projects
+       ══════════════════════════════════════════════════ -->
+  <div class="view active" id="view-main">
+    <div class="content-area">
+
+      <!-- ABOUT ME -->
+      <div id="sec-about">
+        <h2 class="sec-title rv">About Me</h2>
+        <div class="sec-line rv"></div>
+        <p class="bio rv">
+          I'm Wafee Rahman, a computer science student at Toronto Metropolitan University and a software engineer driven by a passion for building impactful, scalable applications. With experience spanning full-stack development, cloud infrastructure, automation, and machine learning, I try my best to put my skills towards meaningful projects that drive positive impact to users.
+        </p>
+        <div class="skills-row rv">
+          <span class="skill-chip">React</span>
+          <span class="skill-chip">TypeScript</span>
+          <span class="skill-chip">Python</span>
+          <span class="skill-chip">Node.js</span>
+          <span class="skill-chip">Java</span>
+          <span class="skill-chip">Spring Boot</span>
+          <span class="skill-chip">Next.js</span>
+          <span class="skill-chip">Django</span>
+          <span class="skill-chip">PostgreSQL</span>
+          <span class="skill-chip">MongoDB</span>
+          <span class="skill-chip">Firebase</span>
+          <span class="skill-chip">AWS</span>
+          <span class="skill-chip">GCP</span>
+          <span class="skill-chip">Docker</span>
+          <span class="skill-chip">TensorFlow</span>
+          <span class="skill-chip">SQL</span>
+          <span class="skill-chip">Git</span>
+          <span class="skill-chip">Flask</span>
+        </div>
+      </div>
+
+      <!-- WORK EXPERIENCE -->
+      <div id="sec-experience">
+        <h2 class="sec-title rv">Work Experience</h2>
+        <div class="sec-line rv"></div>
+
+        <div class="exp-card rv">
+          <div class="exp-row">
+            <span class="exp-title">Software Engineer Intern</span>
+            <span class="exp-date">Jan 2026 — May 2026</span>
+          </div>
+          <div class="exp-company">Activision/Blizzard · Toronto, ON</div>
+          <ul class="exp-bullets">
+            <li>Contributing to the development and optimization of backend commerce services for the upcoming Call of Duty game (2026), supporting millions of players worldwide</li>
+          </ul>
+        </div>
+
+        <div class="exp-card rv">
+          <div class="exp-row">
+            <span class="exp-title">Software Developer Intern</span>
+            <span class="exp-date">May 2025 — Aug 2025</span>
+          </div>
+          <div class="exp-company">TD Securities - Process Innovation & Data Analytics · Toronto, ON</div>
+          <ul class="exp-bullets">
+            <li>Led the end-to-end development of 6 software automation projects, from gathering requirements to deployment, each eliminating 500 hours of manual operation annually using TypeScript, Python, Pandas, and Numpy</li>
+            <li>Accelerated structured notes preprocessing by 90% through automated PDF parsing with Python Regex patterns</li>
+            <li>Reduced operational costs by $16,000 annually by automating daily Excel calculations with TypeScript</li>
+            <li>Automated manual support script execution with a Flask/FastAPI architecture, saving 1040 hours annually</li>
+            <li>Awarded the TD Securities Bridging the Gap Scholarship ($10000)</li>
+          </ul>
+        </div>
+
+        <div class="exp-card rv">
+          <div class="exp-row">
+            <span class="exp-title">Digitization Automation Workflow (DAW) Intern</span>
+            <span class="exp-date">Sep 2024 — Apr 2025</span>
+          </div>
+          <div class="exp-company">TD Insurance - Transformation Enablement · Toronto, ON</div>
+          <ul class="exp-bullets">
+            <li>Supported agile project delivery and management for DAW teams with Git, Jira, and Confluence DevOps tools</li>
+            <li>Automated manual spreadsheet processes with TypeScript Office scripts, reducing operating time by 75%</li>
+            <li>Queried production defects using SQL for root cause analysis, identifying cost savings of $10,000 annually</li>
+            <li>Facilitated maintenance of 18 automation deployments ensuring 90% uptime and service-level metrics</li>
+            <li>Streamlined KPI reporting process by automating 8,000 report extractions annually with Python and Powerapps</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div id="sec-projects">
+        <h2 class="sec-title rv">Projects</h2>
+        <div class="sec-line rv"></div>
+
+        <!-- 1: Explore Toronto — odd → desc LEFT, gif RIGHT -->
+        <div class="project-card rv">
+          <div class="project-info rv-l">
+            <h3>Explore Toronto</h3>
+            <p class="project-type">Tourism Social Media Application for Toronto Enthusiasts</p>
+            <div class="project-tags">
+              <span class="project-tag">MongoDB</span>
+              <span class="project-tag">Express</span>
+              <span class="project-tag">React</span>
+              <span class="project-tag">Node.js</span>
+            </div>
+            <div class="project-label">Overview</div>
+            <p class="project-text">A full-featured web application that enables users to discover, post, and review tourist locations throughout Toronto. Demonstrates full-stack development with the MERN stack and incorporates mapping features.</p>
+            <div class="project-label">Key Features</div>
+            <ul class="project-features">
+              <li>Built 3 data models and respective CRUD methods to streamline data operations</li>
+              <li>Developed 16+ REST API routes with middleware and validation for secure requests</li>
+              <li>Used PassportJS and session cookies to encrypt and authenticate user credentials</li>
+              <li>Designed responsive UI with real-time mapping using MapboxGL and Material UI</li>
+            </ul>
+          </div>
+          <div class="project-gif-wrap rv-r">
+            <img src="exploretoronto.gif" alt="Explore Toronto Demo" loading="lazy">
+          </div>
+        </div>
+
+        <!-- 2: ClipShare — even → gif LEFT, desc RIGHT -->
+        <div class="project-card reverse rv">
+          <div class="project-info rv-r">
+            <h3>ClipShare Library</h3>
+            <p class="project-type">Cloud Computed Video Hosting</p>
+            <div class="project-tags">
+              <span class="project-tag">Firebase</span>
+              <span class="project-tag">Next.js</span>
+              <span class="project-tag">React</span>
+              <span class="project-tag">GCP</span>
+            </div>
+            <div class="project-label">Overview</div>
+            <p class="project-text">A scalable cloud video storage solution that compresses, processes, and displays user-uploaded videos. Leverages cloud technologies to create a seamless video management experience.</p>
+            <div class="project-label">Key Features</div>
+            <ul class="project-features">
+              <li>Programmed and containerized processing service on Google Cloud using Docker</li>
+              <li>Pipelined data between Cloud Storage buckets via Pub/Sub messaging queues</li>
+              <li>Deployed 5+ GCP Cloud Run functions for serverless video upload processing</li>
+              <li>Produced frontend with TypeScript, React, and Next.js for user interaction</li>
+            </ul>
+          </div>
+          <div class="project-gif-wrap rv-l">
+            <img src="clipshare.gif" alt="ClipShare Demo" loading="lazy">
+          </div>
+        </div>
+
+        <!-- 3: Weatherly — odd → desc LEFT, gif RIGHT -->
+        <div class="project-card rv">
+          <div class="project-info rv-l">
+            <h3>Weatherly</h3>
+            <p class="project-type">A Machine Learning Meteorologist</p>
+            <div class="project-tags">
+              <span class="project-tag">TensorFlow 2.0</span>
+              <span class="project-tag">Spring Boot</span>
+              <span class="project-tag">React</span>
+              <span class="project-tag">AWS</span>
+            </div>
+            <div class="project-label">Overview</div>
+            <p class="project-text">A full-stack machine learning weather forecasting platform that provides accurate predictions based on historical data and implements LLM technology to explain results in natural language.</p>
+            <div class="project-label">Key Features</div>
+            <ul class="project-features">
+              <li>Transformed and preprocessed 10,000+ rows of weather data for prediction models</li>
+              <li>Optimized prediction accuracy by 25% using LSTM-based forecasting with TensorFlow 2.0</li>
+              <li>Engineered LLM to explain real-time predictions using Spring Boot and OpenAI API</li>
+              <li>Deployed Spring Boot app on AWS EC2 Linux VM for production serving</li>
+            </ul>
+          </div>
+          <div class="project-gif-wrap rv-r">
+            <img src="weatherly.gif" alt="Weatherly Demo" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════ VIEW: AWARDS ═══════ -->
+  <div class="view" id="view-awards">
+    <div class="content-area">
+      <h2 class="sec-title rv">Awards</h2>
+      <div class="sec-line rv"></div>
+      <div class="awards-timeline">
+        <div class="award-card rv">
+          <div class="award-year">2025</div>
+          <div class="award-name">Generation Google Scholarship</div>
+          <div class="award-issuer">Issued by Google · Oct 2025</div>
+          <p class="award-desc">These students have demonstrated a passion for technology, academic excellence, and have proven themselves as exceptional leaders and role models. They will join a community of over 3,000 Google scholarship recipients. We can't wait to see how these students continue to shape the future of computer science, gaming, and technology.</p>
+        </div>
+        <div class="award-card rv">
+          <div class="award-year">2024</div>
+          <div class="award-name">TD Securities Bridging the Gap Scholarship</div>
+          <div class="award-issuer">Issued by TD Securities · Aug 2024</div>
+          <p class="award-desc">"In recognition of being awarded the Bridging the Gap scholarship by TD Securities. This scholarship is awarded in acknowledgment of Wafee's outstanding academic achievements and potential, and in support of his continued educational endeavours at Toronto Metropolitan University." — Tim Wiggan, President and CEO</p>
+        </div>
+        <div class="award-card rv">
+          <div class="award-year">2023</div>
+          <div class="award-name">Randy Padmore Anti-Racism Scholarship</div>
+          <div class="award-issuer">Issued by CHFT · Nov 2023</div>
+        </div>
+        <div class="award-card rv">
+          <div class="award-year">2023 · 2024 · 2025</div>
+          <div class="award-name">Alexandra Park Revitalization Scholarship</div>
+          <div class="award-issuer">Issued by Tridel, Toronto Community Housing, Alexandra Park Community Centre · Oct 2023</div>
+          <p class="award-desc">The Alexandra Park Revitalization Scholarship awards its recipients in recognition of the diverse educational goals, career aspirations and learning preferences in the Alexandra Park community.</p>
+        </div>
+        <div class="award-card rv">
+          <div class="award-year">2023 · 2024</div>
+          <div class="award-name">Faculty of Science — Dean's List</div>
+          <div class="award-issuer">Toronto Metropolitan University · Jun 2023</div>
+        </div>
+        <div class="award-card rv">
+          <div class="award-year">2022</div>
+          <div class="award-name">IIOD — William R. McMurtry Memorial Anti-Racism Scholarship</div>
+          <div class="award-issuer">Issued by Scadding Court Community Centre, Toronto Community Housing, Blaney McMurtry LLP · Sep 2022</div>
+          <p class="award-desc">The IIOD scholarship is awarded to those who demonstrate strong contribution to their communities in promoting diversity, equity and anti-racism dialogue.</p>
+        </div>
+        <div class="award-card rv">
+          <div class="award-year">2022</div>
+          <div class="award-name">CHFT Diversity Scholarship</div>
+          <div class="award-issuer">Issued by Atkinson Housing Co-Operative, CHFT Charitable Fund · Aug 2022</div>
+          <p class="award-desc">The CHFT Diversity Scholarship recognizes people living in co-ops who are actively promoting diversity through work within their community.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ VIEW: CREATIVE ═══════ -->
+  <div class="view" id="view-creative">
+    <div class="content-area">
+      <h2 class="sec-title rv">Creative</h2>
+      <div class="sec-line rv"></div>
+
+      <div class="creative-tabs rv">
+        <button class="creative-tab active-sub" data-sub="photography">Photography</button>
+        <div class="creative-divider"></div>
+        <button class="creative-tab disabled" data-sub="film">Film</button>
+        <div class="creative-divider"></div>
+        <button class="creative-tab disabled" data-sub="charitable">Charitable Contributions</button>
+      </div>
+
+      <div class="creative-page active-cp" id="sub-photography">
+        <!-- Photos loaded dynamically from Google Drive -->
+        <div id="photo-container">
+          <div class="photo-loading">
+            <div class="spinner"></div>
+            <p>Loading photography...</p>
+          </div>
+        </div>
+      </div>
+      <div class="creative-page" id="sub-film">
+        <div class="coming-soon">Film — Coming Soon</div>
+      </div>
+      <div class="creative-page" id="sub-charitable">
+        <div class="coming-soon">Charitable Contributions — Coming Soon</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>© 2025 Wafee Rahman</footer>
+</div>
+
+<script>
+/* ═══════════════════════
+   CONFIGURATION
+   ═══════════════════════ */
+
+/*
+  HOW TO SET UP YOUR GOOGLE DRIVE PHOTOS:
+  ----------------------------------------
+  1. Create a folder in Google Drive and upload your photos
+  2. Right-click the folder → Share → "Anyone with the link" → Viewer
+  3. Copy the folder ID from the URL:
+     https://drive.google.com/drive/folders/YOUR_FOLDER_ID_HERE
+  4. Replace the FOLDER_ID below with your folder ID
+  5. Get a Google API key from https://console.cloud.google.com
+     - Enable "Google Drive API"
+     - Create an API key (restrict to Drive API for security)
+  6. Replace API_KEY below with your key
+*/
+const GDRIVE_FOLDER_ID = '1nF86NVib40J4ux2i1Mcz1s6ytF0_hIzh';
+const GDRIVE_API_KEY = 'AIzaSyBBnbyxxgxqgAXY1wABWCT6A9KkCTLrenE';
+
+/* ═══════ INTRO — exactly 3 seconds ═══════ */
+const intro = document.getElementById('intro-screen');
+const main = document.getElementById('main-site');
+setTimeout(() => {
+  intro.classList.add('fade-out');
+  setTimeout(() => { intro.style.display = 'none'; main.classList.add('visible'); observe(); }, 900);
+}, 1800);
+
+/* ═══════ CURSOR ═══════ */
+const glow = document.getElementById('cursor-glow');
+let mx = 0, my = 0, gx = 0, gy = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function loop() {
+  gx += (mx - gx) * 0.12; gy += (my - gy) * 0.12;
+  glow.style.left = gx + 'px'; glow.style.top = gy + 'px';
+  requestAnimationFrame(loop);
+})();
+
+/* ═══════ NAV ═══════ */
+const tabs = document.querySelectorAll('.nav-tab');
+const views = document.querySelectorAll('.view');
+let photosLoaded = false;
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const viewId = tab.dataset.view;
+    const anchor = tab.dataset.anchor;
+
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+
+    const currentView = document.querySelector('.view.active');
+    const targetView = document.getElementById('view-' + viewId);
+
+    if (currentView !== targetView) {
+      targetView.querySelectorAll('.rv, .rv-l, .rv-r').forEach(el => el.classList.remove('vis'));
+      views.forEach(v => v.classList.remove('active'));
+      targetView.classList.add('active');
+    }
+
+    if (anchor) {
+      const el = document.getElementById(anchor);
+      if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+    } else {
+      setTimeout(() => {
+        window.scrollTo({ top: document.getElementById('hero').offsetHeight, behavior: 'smooth' });
+      }, 50);
+    }
+
+    // Load photos when creative tab is first clicked
+    if (viewId === 'creative' && !photosLoaded) {
+      loadPhotos();
+      photosLoaded = true;
+    }
+
+    setTimeout(observe, 200);
+  });
+});
+
+/* ═══════ CREATIVE SUB-TABS ═══════ */
+document.querySelectorAll('.creative-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    if (tab.classList.contains('disabled')) return;
+    document.querySelectorAll('.creative-tab').forEach(t => t.classList.remove('active-sub'));
+    tab.classList.add('active-sub');
+    document.querySelectorAll('.creative-page').forEach(p => p.classList.remove('active-cp'));
+    document.getElementById('sub-' + tab.dataset.sub).classList.add('active-cp');
+  });
+});
+
+/* ═══════ GOOGLE DRIVE PHOTO FETCHER ═══════ */
+async function loadPhotos() {
+  const container = document.getElementById('photo-container');
+
+  // Check if API key is configured
+  if (GDRIVE_API_KEY === 'YOUR_API_KEY_HERE' || GDRIVE_FOLDER_ID === 'YOUR_FOLDER_ID_HERE') {
+    container.innerHTML = `
+      <div class="photo-error">
+        <p style="margin-bottom:16px;">Photography gallery not yet configured.</p>
+        <p style="font-size:0.75rem;opacity:0.6;max-width:500px;margin:0 auto;line-height:1.8;">
+          To enable: open index.html, find <code>GDRIVE_FOLDER_ID</code> and <code>GDRIVE_API_KEY</code> near the top of the script, and replace them with your Google Drive folder ID and API key. See the comments in the code for setup instructions.
+        </p>
+      </div>`;
+    return;
+  }
+
+  try {
+    const imageTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    const query = `'${GDRIVE_FOLDER_ID}' in parents and (${imageTypes.map(t => `mimeType='${t}'`).join(' or ')}) and trashed=false`;
+
+    const res = await fetch(
+      `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&key=${GDRIVE_API_KEY}&fields=files(id,name,mimeType,imageMediaMetadata)&pageSize=50&orderBy=name`
+    );
+
+    if (!res.ok) throw new Error(`API error: ${res.status}`);
+    const data = await res.json();
+
+    if (!data.files || data.files.length === 0) {
+      container.innerHTML = '<div class="photo-error"><p>No photos found in the linked folder.</p></div>';
+      return;
+    }
+
+    // Build masonry gallery
+    const gallery = document.createElement('div');
+    gallery.className = 'photo-gallery rv';
+
+    data.files.forEach(file => {
+      // Google Drive direct thumbnail URL — w=800 for high quality
+      const thumbUrl = `https://drive.google.com/thumbnail?id=${file.id}&sz=w800`;
+      const fullUrl = `https://drive.google.com/thumbnail?id=${file.id}&sz=w1600`;
+
+      const item = document.createElement('div');
+      item.className = 'photo-gallery-item';
+      item.style.cursor = 'pointer';
+      item.onclick = () => openLightbox(fullUrl);
+
+      const img = document.createElement('img');
+      img.src = thumbUrl;
+      img.alt = file.name || 'Photography';
+      img.loading = 'lazy';
+
+      // Handle different aspect ratios naturally — masonry columns handle this
+      img.onerror = () => item.remove();
+
+      item.appendChild(img);
+      gallery.appendChild(item);
+    });
+
+    container.innerHTML = '';
+    container.appendChild(gallery);
+    setTimeout(observe, 100);
+
+  } catch (err) {
+    console.error('Failed to load photos:', err);
+    container.innerHTML = `
+      <div class="photo-error">
+        <p style="margin-bottom:12px;">Could not load photos.</p>
+        <p style="font-size:0.75rem;opacity:0.6;">${err.message}</p>
+      </div>`;
+  }
+}
+
+/* ═══════ LIGHTBOX ═══════ */
+function openLightbox(src) {
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src = src;
+  lb.classList.add('open');
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+
+/* ═══════ SCROLL REVEAL ═══════ */
+function observe() {
+  const els = document.querySelectorAll('.rv:not(.vis), .rv-l:not(.vis), .rv-r:not(.vis)');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('vis'), i * 60);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  els.forEach(el => obs.observe(el));
+}
+
+/* ═══════ SCROLL NAV HIGHLIGHT ═══════ */
+const mainAnchors = ['sec-about', 'sec-experience', 'sec-projects'];
+const mainTabs = Array.from(tabs).filter(t => t.dataset.view === 'main');
+window.addEventListener('scroll', () => {
+  if (!document.getElementById('view-main').classList.contains('active')) return;
+  let current = mainAnchors[0];
+  for (const id of mainAnchors) {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top <= 220) current = id;
+  }
+  tabs.forEach(t => t.classList.remove('active'));
+  const match = mainTabs.find(t => t.dataset.anchor === current);
+  if (match) match.classList.add('active');
+});
+
+/* ═══════ PARTICLES ═══════ */
+(function() {
+  for (let i = 0; i < 25; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const s = Math.random() * 2.5 + 0.5;
+    Object.assign(p.style, {
+      width: s + 'px', height: s + 'px',
+      left: Math.random() * 100 + 'vw',
+      opacity: Math.random() * 0.25 + 0.05,
+      animation: `float-p ${Math.random() * 20 + 15}s linear infinite`,
+      animationDelay: -Math.random() * 20 + 's'
+    });
+    document.body.appendChild(p);
+  }
+})();
+</script>
+</body>
+</html>
