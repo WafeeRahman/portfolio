@@ -232,7 +232,8 @@ body::after {
 .exp-row { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
 .exp-title { font-family: var(--font-display); font-size: clamp(1.05rem, 1.6vw, 1.3rem); font-weight: 600; letter-spacing: 0.04em; }
 .exp-date { font-family: var(--font-display); font-size: 0.82rem; font-weight: 300; color: var(--white-dim); letter-spacing: 0.08em; }
-.exp-company { font-size: 0.95rem; color: var(--white-dim); margin-bottom: 18px; font-weight: 300; }
+.exp-company { font-size: 0.95rem; color: var(--white-dim); margin-bottom: 18px; font-weight: 300; display: flex; align-items: center; gap: 10px; }
+.exp-company img.company-logo { height: 20px; width: auto; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.7; }
 .exp-bullets { list-style: none; padding: 0; }
 .exp-bullets li { padding: 5px 0 5px 22px; position: relative; color: var(--white-dim); font-size: 0.95rem; line-height: 1.8; font-weight: 300; }
 .exp-bullets li::before { content: ''; position: absolute; left: 0; top: 15px; width: 6px; height: 1px; background: var(--white-muted); }
@@ -372,6 +373,18 @@ body::after {
   text-align: center; padding: 80px 20px;
   font-family: var(--font-display); font-size: 0.9rem;
   letter-spacing: 0.15em; color: var(--white-muted); text-transform: uppercase;
+}
+.involvement-section { padding: 20px 0; }
+.involvement-card {
+  padding: 30px 34px; margin-bottom: 30px;
+  border: 1px solid rgba(240,236,228,0.06); border-radius: 4px;
+  background: rgba(240,236,228,0.015); position: relative;
+  transition: border-color 0.4s, transform 0.4s, box-shadow 0.4s;
+}
+.involvement-card:hover { border-color: rgba(240,236,228,0.1); transform: translateY(-2px); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.involvement-title {
+  font-family: var(--font-display); font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  font-weight: 600; letter-spacing: 0.04em; margin-bottom: 14px;
 }
 
 /* Lightbox */
@@ -525,7 +538,7 @@ footer {
             <span class="exp-title">Software Engineer Intern</span>
             <span class="exp-date">Jan 2026 — May 2026</span>
           </div>
-          <div class="exp-company">Activision/Blizzard · Toronto, ON</div>
+          <div class="exp-company"><img class="company-logo" src="https://upload.wikimedia.org/wikipedia/commons/0/06/Activision_Blizzard.svg" alt="Activision Blizzard logo">Activision/Blizzard · Toronto, ON</div>
           <ul class="exp-bullets">
             <li>Contributing to the development and optimization of backend commerce services for the upcoming Call of Duty game (2026), supporting millions of players worldwide</li>
           </ul>
@@ -536,7 +549,7 @@ footer {
             <span class="exp-title">Software Developer Intern</span>
             <span class="exp-date">May 2025 — Aug 2025</span>
           </div>
-          <div class="exp-company">TD Securities - Process Innovation & Data Analytics · Toronto, ON</div>
+          <div class="exp-company"><img class="company-logo" src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Toronto-Dominion_Bank_logo.svg" alt="TD logo">TD Securities - Process Innovation & Data Analytics · Toronto, ON</div>
           <ul class="exp-bullets">
             <li>Led the end-to-end development of 6 software automation projects, from gathering requirements to deployment, each eliminating 500 hours of manual operation annually using TypeScript, Python, Pandas, and Numpy</li>
             <li>Accelerated structured notes preprocessing by 90% through automated PDF parsing with Python Regex patterns</li>
@@ -551,7 +564,7 @@ footer {
             <span class="exp-title">Digitization Automation Workflow (DAW) Intern</span>
             <span class="exp-date">Sep 2024 — Apr 2025</span>
           </div>
-          <div class="exp-company">TD Insurance - Transformation Enablement · Toronto, ON</div>
+          <div class="exp-company"><img class="company-logo" src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Toronto-Dominion_Bank_logo.svg" alt="TD logo">TD Insurance - Transformation Enablement · Toronto, ON</div>
           <ul class="exp-bullets">
             <li>Supported agile project delivery and management for DAW teams with Git, Jira, and Confluence DevOps tools</li>
             <li>Automated manual spreadsheet processes with TypeScript Office scripts, reducing operating time by 75%</li>
@@ -710,7 +723,7 @@ footer {
         <div class="creative-divider"></div>
         <button class="creative-tab disabled" data-sub="film">Film</button>
         <div class="creative-divider"></div>
-        <button class="creative-tab disabled" data-sub="charitable">Charitable Contributions</button>
+        <button class="creative-tab" data-sub="charitable">Community Involvement</button>
       </div>
 
       <div class="creative-page active-cp" id="sub-photography">
@@ -726,7 +739,14 @@ footer {
         <div class="coming-soon">Film — Coming Soon</div>
       </div>
       <div class="creative-page" id="sub-charitable">
-        <div class="coming-soon">Charitable Contributions — Coming Soon</div>
+        <div class="involvement-section">
+          <div class="involvement-card rv">
+            <h3 class="involvement-title">MDZ Productions — Board of Directors</h3>
+            <ul class="exp-bullets">
+              <li>Assisting in executive decision making and development of community-driven projects and initiatives held by MDZ Productions</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
