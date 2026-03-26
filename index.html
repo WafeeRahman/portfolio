@@ -376,16 +376,27 @@ body::after {
 }
 .involvement-section { padding: 20px 0; }
 .involvement-card {
-  padding: 30px 34px; margin-bottom: 30px;
-  border: 1px solid rgba(240,236,228,0.06); border-radius: 4px;
-  background: rgba(240,236,228,0.015); position: relative;
-  transition: border-color 0.4s, transform 0.4s, box-shadow 0.4s;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; margin-bottom: 120px; align-items: center;
 }
-.involvement-card:hover { border-color: rgba(240,236,228,0.1); transform: translateY(-2px); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-.involvement-title {
-  font-family: var(--font-display); font-size: clamp(1.05rem, 1.6vw, 1.3rem);
-  font-weight: 600; letter-spacing: 0.04em; margin-bottom: 14px;
+.involvement-img-wrap {
+  border-radius: 6px; overflow: hidden; position: relative;
+  border: 1px solid rgba(240,236,228,0.08);
+  background: #000;
 }
+.involvement-img-wrap img {
+  width: 100%; height: auto; display: block;
+  filter: brightness(0.95);
+  transition: filter 0.6s, transform 0.6s var(--ease-out-expo);
+}
+.involvement-img-wrap:hover img { filter: brightness(1.08); transform: scale(1.02); }
+.involvement-caption {
+  font-family: var(--font-display); font-size: 0.75rem; font-weight: 300;
+  letter-spacing: 0.08em; color: var(--white-muted); text-align: center;
+  padding: 12px 10px 8px; font-style: italic;
+}
+.involvement-info h3 { font-family: var(--font-display); font-size: clamp(1.2rem, 2.2vw, 1.6rem); font-weight: 600; letter-spacing: 0.06em; margin-bottom: 4px; }
+.involvement-info .project-type { margin-bottom: 18px; }
 
 /* Lightbox */
 .lightbox {
@@ -424,7 +435,7 @@ footer {
   .photo-gallery { columns: 2; }
 }
 @media (max-width: 900px) {
-  .project-card, .project-card.reverse { grid-template-columns: 1fr; gap: 28px; direction: ltr; }
+  .project-card, .project-card.reverse, .involvement-card { grid-template-columns: 1fr; gap: 28px; direction: ltr; }
   .nav-tab { padding: 10px 14px; font-size: 0.65rem; letter-spacing: 0.12em; }
   .exp-card { padding: 24px; }
   .exp-row { flex-direction: column; gap: 2px; }
@@ -540,7 +551,9 @@ footer {
           </div>
           <div class="exp-company"><img class="company-logo" src="https://media.licdn.com/dms/image/v2/D4E0BAQFl4CKNL5JnGQ/company-logo_100_100/company-logo_100_100/0/1686581572281/activision_blizzard_logo?e=1776297600&v=beta&t=ti1U134bHQI_8ODnRZzEPnyLUMUNCjogkgAtY3z2l0o" alt="Activision Blizzard logo">Activision/Blizzard · Toronto, ON</div>
           <ul class="exp-bullets">
-            <li>Contributing to the development and optimization of backend commerce services for the upcoming Call of Duty game (2026), supporting millions of players worldwide</li>
+            <li>Enhanced telemetry for Web Services by emitting Protobuf events through Kafka into Databricks, improving operational visibility for player level-ups across 5M+ API requests yearly</li>
+            <li>Enabled new marketplace features by adding 5+ authorized routes to Call of Duty's loadout service API and engineering 10+ functional tests with Pytest to ensure production reliability</li>
+            <li>Facilitated 16+ production deployments across 6+ Kubernetes clusters using GitOps workflows with ArgoCD, leveraging Jenkins validation to ensure release stability</li>
           </ul>
         </div>
 
@@ -549,7 +562,7 @@ footer {
             <span class="exp-title">Software Developer Intern</span>
             <span class="exp-date">May 2025 — Aug 2025</span>
           </div>
-          <div class="exp-company"><img class="company-logo" src="https://media.licdn.com/dms/image/v2/C4D0BAQGwZ3zFZS4gjA/company-logo_100_100/company-logo_100_100/0/1647877151687?e=1776297600&v=beta&t=EcokhjigIKbQGlGIxO0YTg-_DODexpX3GZKVZ_Ns514" alt="TD logo">TD Securities - Process Innovation & Data Analytics · Toronto, ON</div>
+          <div class="exp-company"><img class="company-logo" src="https://media.licdn.com/dms/image/v2/C4D0BAQGwZ3zFZS4gjA/company-logo_100_100/company-logo_100_100/0/1647877151687?e=1776297600&v=beta&t=EcokhjigIKbQlGIxO0YTg-_DODexpX3GZKVZ_Ns514" alt="TD logo">TD Securities - Process Innovation & Data Analytics · Toronto, ON</div>
           <ul class="exp-bullets">
             <li>Led the end-to-end development of 6 software automation projects, from gathering requirements to deployment, each eliminating 500 hours of manual operation annually using TypeScript, Python, Pandas, and Numpy</li>
             <li>Accelerated structured notes preprocessing by 90% through automated PDF parsing with Python Regex patterns</li>
@@ -564,7 +577,7 @@ footer {
             <span class="exp-title">Digitization Automation Workflow (DAW) Intern</span>
             <span class="exp-date">Sep 2024 — Apr 2025</span>
           </div>
-          <div class="exp-company"><img class="company-logo" src="https://media.licdn.com/dms/image/v2/C4D0BAQGwZ3zFZS4gjA/company-logo_100_100/company-logo_100_100/0/1647877151687?e=1776297600&v=beta&t=EcokhjigIKbQGlGIxO0YTg-_DODexpX3GZKVZ_Ns514" alt="TD logo">TD Insurance - Transformation Enablement · Toronto, ON</div>
+          <div class="exp-company"><img class="company-logo" src="https://media.licdn.com/dms/image/v2/C4D0BAQGwZ3zFZS4gjA/company-logo_100_100/company-logo_100_100/0/1647877151687?e=1776297600&v=beta&t=EcokhjigIKbQlGIxO0YTg-_DODexpX3GZKVZ_Ns514" alt="TD logo">TD Insurance - Transformation Enablement · Toronto, ON</div>
           <ul class="exp-bullets">
             <li>Supported agile project delivery and management for DAW teams with Git, Jira, and Confluence DevOps tools</li>
             <li>Automated manual spreadsheet processes with TypeScript Office scripts, reducing operating time by 75%</li>
@@ -741,10 +754,18 @@ footer {
       <div class="creative-page" id="sub-charitable">
         <div class="involvement-section">
           <div class="involvement-card rv">
-            <h3 class="involvement-title">MDZ Productions — Board of Directors</h3>
-            <ul class="exp-bullets">
-              <li>Assisting in executive decision making and development of community-driven projects and initiatives held by MDZ Productions</li>
-            </ul>
+            <div class="involvement-info rv-l">
+              <h3>MDZ Productions</h3>
+              <p class="project-type">Board of Directors</p>
+              <div class="project-label">Role</div>
+              <ul class="project-features">
+                <li>Assisting in executive decision making and development of community-driven projects and initiatives held by MDZ Productions</li>
+              </ul>
+            </div>
+            <div class="involvement-img-wrap rv-r">
+              <img src="https://github.com/WafeeRahman/portfolio/blob/main/mdz.png?raw=true" alt="MDZ Productions" loading="lazy">
+              <div class="involvement-caption">MDZ Productions is a local organization committed to change in Toronto, founded by my good friends Moiz Sami, Andy Din, and Kabir Sheikh. They have been formally recognized for their efforts, and have raised over 27K in funding towards local initiatives.</div>
+            </div>
           </div>
         </div>
       </div>
