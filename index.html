@@ -376,16 +376,27 @@ body::after {
 }
 .involvement-section { padding: 20px 0; }
 .involvement-card {
-  padding: 30px 34px; margin-bottom: 30px;
-  border: 1px solid rgba(240,236,228,0.06); border-radius: 4px;
-  background: rgba(240,236,228,0.015); position: relative;
-  transition: border-color 0.4s, transform 0.4s, box-shadow 0.4s;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; margin-bottom: 120px; align-items: center;
 }
-.involvement-card:hover { border-color: rgba(240,236,228,0.1); transform: translateY(-2px); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-.involvement-title {
-  font-family: var(--font-display); font-size: clamp(1.05rem, 1.6vw, 1.3rem);
-  font-weight: 600; letter-spacing: 0.04em; margin-bottom: 14px;
+.involvement-img-wrap {
+  border-radius: 6px; overflow: hidden; position: relative;
+  border: 1px solid rgba(240,236,228,0.08);
+  background: #000;
 }
+.involvement-img-wrap img {
+  width: 100%; height: auto; display: block;
+  filter: brightness(0.95);
+  transition: filter 0.6s, transform 0.6s var(--ease-out-expo);
+}
+.involvement-img-wrap:hover img { filter: brightness(1.08); transform: scale(1.02); }
+.involvement-caption {
+  font-family: var(--font-display); font-size: 0.75rem; font-weight: 300;
+  letter-spacing: 0.08em; color: var(--white-muted); text-align: center;
+  padding: 12px 10px 8px; font-style: italic;
+}
+.involvement-info h3 { font-family: var(--font-display); font-size: clamp(1.2rem, 2.2vw, 1.6rem); font-weight: 600; letter-spacing: 0.06em; margin-bottom: 4px; }
+.involvement-info .project-type { margin-bottom: 18px; }
 
 /* Lightbox */
 .lightbox {
@@ -424,7 +435,7 @@ footer {
   .photo-gallery { columns: 2; }
 }
 @media (max-width: 900px) {
-  .project-card, .project-card.reverse { grid-template-columns: 1fr; gap: 28px; direction: ltr; }
+  .project-card, .project-card.reverse, .involvement-card { grid-template-columns: 1fr; gap: 28px; direction: ltr; }
   .nav-tab { padding: 10px 14px; font-size: 0.65rem; letter-spacing: 0.12em; }
   .exp-card { padding: 24px; }
   .exp-row { flex-direction: column; gap: 2px; }
@@ -743,10 +754,18 @@ footer {
       <div class="creative-page" id="sub-charitable">
         <div class="involvement-section">
           <div class="involvement-card rv">
-            <h3 class="involvement-title">MDZ Productions — Board of Directors</h3>
-            <ul class="exp-bullets">
-              <li>Assisting in executive decision making and development of community-driven projects and initiatives held by MDZ Productions</li>
-            </ul>
+            <div class="involvement-info rv-l">
+              <h3>MDZ Productions</h3>
+              <p class="project-type">Board of Directors</p>
+              <div class="project-label">Role</div>
+              <ul class="project-features">
+                <li>Assisting in executive decision making and development of community-driven projects and initiatives held by MDZ Productions</li>
+              </ul>
+            </div>
+            <div class="involvement-img-wrap rv-r">
+              <img src="" alt="MDZ Productions" loading="lazy">
+              <div class="involvement-caption">MDZ Productions</div>
+            </div>
           </div>
         </div>
       </div>
