@@ -907,14 +907,19 @@ async function loadPhotos() {
     const imageTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
     const query = `'${GDRIVE_FOLDER_ID}' in parents and (${imageTypes.map(t => `mimeType='${t}'`).join(' or ')}) and trashed=false`;
 
-    const res = await fetch(
-      `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&key=${GDRIVE_API_KEY}&fields=files(id,name,mimeType,imageMediaMetadata)&pageSize=50&orderBy=name`
-    );
+    const data = { files: [] };
+    let pageToken = '';
+    do {
+      const res = await fetch(
+        `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&key=${GDRIVE_API_KEY}&fields=nextPageToken,files(id,name,mimeType,imageMediaMetadata)&pageSize=1000&orderBy=name${pageToken ? `&pageToken=${encodeURIComponent(pageToken)}` : ''}`
+      );
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+      const page = await res.json();
+      data.files.push(...(page.files || []));
+      pageToken = page.nextPageToken;
+    } while (pageToken);
 
-    if (!res.ok) throw new Error(`API error: ${res.status}`);
-    const data = await res.json();
-
-    if (!data.files || data.files.length === 0) {
+    if (data.files.length === 0) {
       container.innerHTML = '<div class="photo-error"><p>No photos found in the linked folder.</p></div>';
       return;
     }
